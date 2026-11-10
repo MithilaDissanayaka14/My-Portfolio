@@ -7,61 +7,92 @@ export interface SocialLink {
   platform: string;
   url: string;
   icon: string;
+  ariaLabel: string;
 }
 
 export interface PersonalInfo {
   greeting: string;
   name: string;
-  rolePrefix: string;
-  roles: string[];
-  tagline: string;
-  aboutParagraphs: string[];
-  stats: StatItem[];
-  socialLinks: SocialLink[];
+  primaryTitle: string;
+  rolePrefix?: string;
+  animatedTitles: string[];
+  university: string;
+  location: string;
   email: string;
-  resumePath: string;
+  phone?: string;
+  availability?: string;
+  primaryCTA: string;
+  secondaryCTA: string;
+  tagline?: string;
+  aboutParagraphs: string[];
+  stats?: StatItem[];
+  socialLinks: SocialLink[];
+  profileImage?: string;
+  resumePath?: string;
 }
 
-export type SkillCategory = 'all' | 'frontend' | 'backend' | 'database' | 'ai-ml' | 'tools';
-export type SkillLevel = 'Advanced' | 'Intermediate' | 'Proficient';
+export type SkillCategory = 
+  | 'languages'
+  | 'frontend'
+  | 'backend'
+  | 'database'
+  | 'ai-ml'
+  | 'embedded'
+  | 'tools'
+  | 'concepts'
+  | 'soft-skills';
 
 export interface SkillItem {
   id: string;
   name: string;
-  level: SkillLevel;
   category: SkillCategory;
-  icon: string;
+  icon?: string;
+  level?: string; // Optional: Left undefined until verified
 }
 
-export type ProjectSchematic = 'lms' | 'blockchain' | 'iot' | 'math' | 'vision' | 'face' | 'generic';
+export interface SkillCategoryGroup {
+  id: SkillCategory;
+  title: string;
+  skills: SkillItem[];
+}
+
+export type ProjectType = 'Academic Group Project' | 'Individual Project';
+export type ProjectSchematic = 'transit' | 'accommodation' | 'healthcare' | 'fitness' | 'pharmacy' | 'generic';
 
 export interface ProjectItem {
   id: string;
   title: string;
-  subtitle?: string;
-  category: string;
+  type: ProjectType;
+  role: string;
+  status?: string;
+  isFeatured?: boolean;
   description: string;
+  keyFeatures: string[];
   technologies: string[];
-  codeUrl?: string;
-  liveUrl?: string;
-  schematic: ProjectSchematic;
+  codeUrl?: string; // Optional: Only populated when verified URL is provided
+  liveUrl?: string; // Optional: Only populated when verified URL is provided
+  schematic?: ProjectSchematic;
 }
 
 export interface CertificationItem {
   id: string;
   title: string;
   issuer: string;
-  date: string;
-  tag: string;
-  iconType: 'ieee' | 'scrimba' | 'udemy' | 'university' | 'hackerrank' | 'generic';
-  url?: string;
+  year: string;
+  subject?: string;
+  tag?: string;
+  credentialUrl?: string; // Optional: Only populated when verified URL is provided
+  certificateImage?: string; // Optional: Only populated when verified image is provided
+  iconType?: string;
 }
 
 export interface AchievementItem {
   id: string;
   title: string;
-  iconType: 'pin' | 'rocket' | 'trophy' | 'badge';
-  date?: string;
+  organization?: string;
+  period?: string;
+  activities?: string[];
+  iconType?: 'prefect' | 'competition' | 'sports' | 'badge' | 'pin' | 'trophy' | 'rocket';
 }
 
 export interface EducationItem {
@@ -70,7 +101,7 @@ export interface EducationItem {
   institution: string;
   period: string;
   statusBadge?: string;
-  logoType: 'university' | 'institute' | 'college';
+  logoType?: 'university' | 'institute' | 'college' | 'school';
 }
 
 export interface NavItem {
@@ -83,6 +114,5 @@ export interface AgileWorkflowStep {
   name: string;
   description?: string;
   icon: string;
-  angle: number; // Position in degrees around the orbit (0-360)
+  angle: number;
 }
-
