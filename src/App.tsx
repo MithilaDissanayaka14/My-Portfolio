@@ -1,7 +1,22 @@
+import { useEffect } from 'react';
 import { Navbar } from './components/layout/Navbar';
 import { Hero } from './components/sections/Hero';
+import { Skills } from './components/sections/Skills';
+import { Projects } from './components/sections/Projects';
+import { Certifications } from './components/sections/Certifications';
+import { Achievements } from './components/sections/Achievements';
 
 export function App() {
+  // Support initial hash navigation on page load
+  useEffect(() => {
+    if (window.location.hash) {
+      const target = document.querySelector(window.location.hash) as HTMLElement | null;
+      if (target) {
+        window.scrollTo(0, target.offsetTop - 80);
+      }
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#09090b] text-[#f4f4f5] flex flex-col selection:bg-orange-500/30 selection:text-orange-200 overflow-x-clip w-full">
       {/* Sticky Navigation Bar */}
@@ -12,11 +27,19 @@ export function App() {
         {/* Phase 3: Hero Section */}
         <Hero />
 
-        {/* Section Anchors for Navigation Smooth-Scroll */}
-        <div id="skills" className="scroll-mt-24" />
-        <div id="projects" className="scroll-mt-24" />
-        <div id="certifications" className="scroll-mt-24" />
-        <div id="achievements" className="scroll-mt-24" />
+        {/* Phase 4: Skills Section */}
+        <Skills />
+
+        {/* Phase 4: Projects Section */}
+        <Projects />
+
+        {/* Phase 5: Certifications Section */}
+        <Certifications />
+
+        {/* Phase 5: Achievements Section */}
+        <Achievements />
+
+        {/* Section Anchors for Navigation Smooth-Scroll (Subsequent Phases: 6) */}
         <div id="about" className="scroll-mt-24" />
         <div id="education" className="scroll-mt-24" />
         <div id="contact" className="scroll-mt-24" />

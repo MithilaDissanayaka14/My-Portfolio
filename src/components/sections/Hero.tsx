@@ -100,10 +100,10 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-[calc(100vh-5rem)] flex items-center pt-28 pb-16 lg:py-24 overflow-hidden w-full"
+      className="relative min-h-[min(calc(100vh-5rem),850px)] flex items-center pt-24 pb-16 lg:py-20 overflow-hidden w-full"
       aria-label="Hero Introduction"
     >
-      {/* Contained ambient background glows with zero horizontal overflow */}
+      {/* Contained ambient background glows */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10 [clip-path:inset(0)]" aria-hidden="true">
         <div className="absolute top-1/4 left-1/4 -translate-x-1/2 w-64 sm:w-72 h-64 sm:h-72 bg-orange-600/10 rounded-full blur-3xl animate-pulse-glow" />
         <div className="absolute top-1/3 right-1/4 translate-x-1/2 w-64 sm:w-72 h-64 sm:h-72 bg-amber-500/10 rounded-full blur-3xl animate-pulse-glow" />
