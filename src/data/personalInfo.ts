@@ -1,4 +1,5 @@
 import type { PersonalInfo } from '../types/portfolio.types';
+import profileImageWebp from '../assets/profile.webp';
 
 export const personalInfo: PersonalInfo = {
   greeting: "Hi, I'm",
@@ -50,8 +51,8 @@ export const personalInfo: PersonalInfo = {
     }
   ],
 
-  // Profile image is pending - will resolve once placed in src/assets or public
-  profileImage: undefined,
+  // Verified professional monochrome portrait photo
+  profileImage: profileImageWebp,
 
   // Destination path when CV file is placed in public/resume.pdf
   resumePath: "/resume.pdf"

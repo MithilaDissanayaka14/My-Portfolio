@@ -6,21 +6,29 @@ import {
   ArrowRight,
   Code2,
   Sparkles,
+  Heart,
 } from 'lucide-react';
 
 export function Hero() {
   const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
-  const [displayText, setDisplayText] = useState('');
+  const [isLiked, setIsLiked] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false
+  );
+  const [displayText, setDisplayText] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ? personalInfo.animatedTitles[0] || personalInfo.primaryTitle
+      : ''
+  );
   const [isDeleting, setIsDeleting] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   const titles = personalInfo.animatedTitles;
+  // Specific hero adjustment: Remove "SLIIT" mention from hero introduction per design spec
+  const heroDescription = personalInfo.aboutParagraphs[0].replace(' at SLIIT', '');
 
-  // Check for prefers-reduced-motion
+  // Listen for prefers-reduced-motion changes
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mediaQuery.matches);
-
     const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
     mediaQuery.addEventListener('change', handler);
     return () => mediaQuery.removeEventListener('change', handler);
@@ -29,7 +37,6 @@ export function Hero() {
   // Typewriter effect
   useEffect(() => {
     if (prefersReducedMotion) {
-      setDisplayText(titles[0] || personalInfo.primaryTitle);
       return;
     }
 
@@ -42,8 +49,10 @@ export function Hero() {
     if (!isDeleting && displayText === currentFullTitle) {
       timeout = setTimeout(() => setIsDeleting(true), pauseDelay);
     } else if (isDeleting && displayText === '') {
-      setIsDeleting(false);
-      setCurrentTitleIndex((prev) => (prev + 1) % titles.length);
+      timeout = setTimeout(() => {
+        setIsDeleting(false);
+        setCurrentTitleIndex((prev) => (prev + 1) % titles.length);
+      }, 400);
     } else {
       timeout = setTimeout(() => {
         setDisplayText((prev) =>
@@ -100,62 +109,51 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-[min(calc(100vh-5rem),850px)] flex items-center pt-24 pb-16 lg:py-20 overflow-hidden w-full"
+      className="relative flex flex-col justify-between pt-20 pb-6 sm:pt-22 sm:pb-8 lg:pt-20 lg:pb-5 xl:pt-20 xl:pb-6 lg:h-[100svh] lg:min-h-[700px] overflow-hidden w-full"
       aria-label="Hero Introduction"
     >
       {/* Contained ambient background glows */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10 [clip-path:inset(0)]" aria-hidden="true">
-        <div className="absolute top-1/4 left-1/4 -translate-x-1/2 w-64 sm:w-72 h-64 sm:h-72 bg-orange-600/10 rounded-full blur-3xl animate-pulse-glow" />
-        <div className="absolute top-1/3 right-1/4 translate-x-1/2 w-64 sm:w-72 h-64 sm:h-72 bg-amber-500/10 rounded-full blur-3xl animate-pulse-glow" />
+        <div className="absolute top-1/4 left-1/4 -translate-x-1/2 w-72 sm:w-96 h-72 sm:h-96 bg-orange-600/10 rounded-full blur-3xl animate-pulse-glow" />
+        <div className="absolute top-1/3 right-1/4 translate-x-1/2 w-72 sm:w-96 h-72 sm:h-96 bg-amber-500/10 rounded-full blur-3xl animate-pulse-glow" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full flex-1 flex flex-col justify-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12 items-center lg:mt-[4.25rem] xl:mt-[4.75rem] w-full">
           {/* Left Column: Text & Content */}
-          <div className="lg:col-span-7 min-w-0 flex flex-col items-center lg:items-start text-center lg:text-left w-full">
-            {/* Availability Badge */}
-            {personalInfo.availability && (
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-900/80 border border-neutral-800 text-xs font-medium text-neutral-300 mb-6 shadow-sm">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </span>
-                <span>{personalInfo.availability}</span>
-              </div>
-            )}
-
+          <div className="lg:col-span-7 xl:col-span-7 min-w-0 flex flex-col items-center lg:items-start text-center lg:text-left w-full">
             {/* Greeting */}
-            <p className="text-neutral-400 font-medium text-sm sm:text-base mb-2 tracking-wide">
+            <p className="text-neutral-400 font-medium text-base sm:text-lg mb-2.5 tracking-wide">
               {personalInfo.greeting}
             </p>
 
             {/* Name */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15] mb-3 max-w-full">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold text-white tracking-tight leading-[1.1] mb-2.5 sm:mb-3 max-w-full break-words">
               {personalInfo.name}
             </h1>
 
             {/* Animated Title */}
-            <div className="min-h-9 sm:h-12 flex items-center justify-center lg:justify-start mb-6">
-              <span className="text-xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-400 via-orange-500 to-amber-500 bg-clip-text text-transparent font-mono">
+            <div className="min-h-10 sm:h-12 flex items-center justify-center lg:justify-start mb-5 sm:mb-6">
+              <span className="text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold bg-gradient-to-r from-orange-400 via-orange-500 to-amber-500 bg-clip-text text-transparent font-mono">
                 {displayText}
               </span>
               <span
-                className="inline-block w-0.5 sm:w-1 h-6 sm:h-8 bg-orange-500 ml-1.5 rounded-full animate-blink"
+                className="inline-block w-1 sm:w-1.5 h-6 sm:h-8 lg:h-9 bg-orange-500 ml-1.5 rounded-full animate-blink"
                 aria-hidden="true"
               />
             </div>
 
             {/* Professional Summary Description */}
-            <p className="text-neutral-400 text-sm sm:text-base leading-relaxed max-w-2xl mb-8">
-              {personalInfo.aboutParagraphs[0]}
+            <p className="text-neutral-300 text-sm sm:text-base lg:text-base xl:text-lg leading-relaxed max-w-xl lg:max-w-2xl mb-7 sm:mb-8">
+              {heroDescription}
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto mb-10">
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-7 sm:mb-8">
               <a
                 href="#contact"
                 onClick={handleHireMeClick}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/35 active:scale-[0.98] transition-all border border-orange-400/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm text-neutral-950 bg-orange-500 hover:bg-orange-400 active:scale-[0.98] transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/35 border border-orange-400/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
               >
                 <span>{personalInfo.primaryCTA}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -164,18 +162,15 @@ export function Hero() {
               <a
                 href={personalInfo.resumePath || '/resume.pdf'}
                 download="Mithila_Dissanayaka_CV.pdf"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-sm text-neutral-200 bg-neutral-900/90 hover:bg-neutral-800/90 border border-neutral-800 hover:border-neutral-700 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-semibold text-sm text-neutral-200 bg-neutral-900/90 hover:bg-neutral-800/90 border border-neutral-750 hover:border-neutral-600 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
               >
                 <Download className="w-4 h-4 text-orange-400" />
                 <span>{personalInfo.secondaryCTA}</span>
               </a>
             </div>
 
-            {/* Social Links Row */}
-            <div className="flex items-center gap-3">
-              <span className="text-xs text-neutral-500 uppercase tracking-wider font-mono mr-2 hidden sm:inline-block">
-                Connect:
-              </span>
+            {/* Social Links Row (Clean pills matching reference) */}
+            <div className="flex items-center justify-center lg:justify-start gap-3">
               {personalInfo.socialLinks.map((link) => (
                 <a
                   key={link.platform}
@@ -183,7 +178,7 @@ export function Hero() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={link.ariaLabel}
-                  className="w-11 h-11 rounded-xl bg-neutral-900/90 border border-neutral-800 hover:border-orange-500/50 hover:bg-neutral-800/90 hover:text-orange-400 text-neutral-300 flex items-center justify-center transition-all duration-200 shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-neutral-900/90 border border-neutral-800 hover:border-orange-500/50 hover:bg-neutral-850 hover:text-orange-400 text-neutral-400 flex items-center justify-center transition-all duration-200 shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
                 >
                   {renderSocialIcon(link.platform)}
                 </a>
@@ -192,74 +187,77 @@ export function Hero() {
           </div>
 
           {/* Right Column: Profile Image / Portrait Container */}
-          <div className="lg:col-span-5 min-w-0 flex justify-center items-center w-full">
-            <div className="relative">
-              {/* Subtle ambient back-glow ring */}
-              <div
-                className="absolute inset-0 rounded-full bg-gradient-to-tr from-orange-600/30 to-amber-500/10 blur-2xl transform scale-110 pointer-events-none -z-10"
-                aria-hidden="true"
-              />
-
-              {/* Outer decorative ring */}
-              <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-84 lg:h-84 xl:w-96 xl:h-96 rounded-full p-2.5 bg-gradient-to-b from-orange-500/40 via-neutral-800/60 to-neutral-900/90 shadow-2xl shadow-orange-500/10">
-                {/* Inner circular frame */}
-                <div className="w-full h-full rounded-full overflow-hidden bg-[#121215] border border-neutral-800 flex items-center justify-center relative group">
-                  {personalInfo.profileImage ? (
-                    <img
-                      src={personalInfo.profileImage}
-                      alt={personalInfo.name}
-                      width={384}
-                      height={384}
-                      className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                      loading="eager"
-                    />
-                  ) : (
-                    /* Visually polished neutral developer placeholder until photo is provided */
-                    <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 to-[#0e0e11] p-6 text-center select-none relative">
-                      {/* Orbital subtle decorative background circles */}
-                      <div
-                        className="absolute w-44 h-44 sm:w-56 sm:h-56 rounded-full border border-orange-500/10 animate-radar pointer-events-none"
-                        aria-hidden="true"
-                      />
-                      <div
-                        className="absolute w-32 h-32 sm:w-40 sm:h-40 rounded-full border border-neutral-800 pointer-events-none"
-                        aria-hidden="true"
-                      />
-
-                      {/* Center Emblem */}
-                      <div className="relative z-10 flex flex-col items-center gap-2">
-                        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-neutral-800 border border-neutral-750 flex items-center justify-center shadow-lg shadow-black/50 group-hover:border-orange-500/40 transition-colors">
-                          <Code2 className="w-10 h-10 sm:w-12 sm:h-12 text-orange-400 stroke-[1.5]" />
-                        </div>
-                        <span className="font-serif italic text-2xl font-bold bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 bg-clip-text text-transparent mt-1">
-                          MD
-                        </span>
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-900/90 border border-neutral-800 text-[11px] font-mono text-neutral-400">
-                          <Sparkles className="w-3 h-3 text-orange-400" />
-                          <span>Software Engineer</span>
-                        </div>
-                      </div>
+          <div className="lg:col-span-5 xl:col-span-5 min-w-0 flex justify-center lg:justify-end items-center w-full">
+            {/* Understated circular frame matching reference */}
+            <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-[360px] lg:h-[360px] xl:w-[425px] xl:h-[425px] 2xl:w-[470px] 2xl:h-[470px] rounded-full overflow-hidden border-2 border-[#292929] shadow-xl shadow-black/60 bg-[#121215] group">
+              {personalInfo.profileImage ? (
+                <img
+                  src={personalInfo.profileImage}
+                  alt={`${personalInfo.name} - Professional Portrait`}
+                  width={480}
+                  height={480}
+                  className="w-full h-full object-cover object-[50%_18%] transition-transform duration-500 group-hover:scale-105"
+                  loading="eager"
+                  fetchPriority="high"
+                />
+              ) : (
+                /* Fallback placeholder */
+                <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 to-[#0e0e11] p-6 text-center select-none relative">
+                  <div
+                    className="absolute w-44 h-44 sm:w-56 sm:h-56 rounded-full border border-orange-500/10 animate-radar pointer-events-none"
+                    aria-hidden="true"
+                  />
+                  <div
+                    className="absolute w-32 h-32 sm:w-40 sm:h-40 rounded-full border border-neutral-800 pointer-events-none"
+                    aria-hidden="true"
+                  />
+                  <div className="relative z-10 flex flex-col items-center gap-2">
+                    <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-neutral-800 border border-neutral-750 flex items-center justify-center shadow-lg shadow-black/50 group-hover:border-orange-500/40 transition-colors">
+                      <Code2 className="w-10 h-10 sm:w-12 sm:h-12 text-orange-400 stroke-[1.5]" />
                     </div>
-                  )}
+                    <span className="font-serif italic text-2xl font-bold bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 bg-clip-text text-transparent mt-1">
+                      MD
+                    </span>
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-900/90 border border-neutral-800 text-[11px] font-mono text-neutral-400">
+                      <Sparkles className="w-3 h-3 text-orange-400" />
+                      <span>Software Engineer</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
 
-        {/* Optional Stats Area: Only renders if verified statistics exist */}
-        {personalInfo.stats && personalInfo.stats.length > 0 && (
-          <div className="mt-16 sm:mt-20 pt-8 border-t border-neutral-800/60">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-              {personalInfo.stats.map((stat) => (
-                <div key={stat.label} className="p-4 rounded-xl bg-neutral-900/40 border border-neutral-800/40">
-                  <div className="text-3xl font-extrabold text-orange-500 font-mono mb-1">{stat.value}</div>
-                  <div className="text-xs text-neutral-400">{stat.label}</div>
-                </div>
-              ))}
-            </div>
+        {/* Horizontal Information Strip matching reference */}
+        <div className="mt-8 sm:mt-10 lg:mt-[5.5rem] xl:mt-[6.5rem] w-full p-4 sm:p-5 lg:px-8 lg:py-3.5 xl:py-4 rounded-2xl bg-[#141416]/90 border border-neutral-800/80 backdrop-blur-sm flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl shadow-black/40">
+          <div className="flex flex-col sm:flex-row items-center sm:items-baseline gap-1.5 sm:gap-3.5 text-center sm:text-left">
+            <span className="text-2xl sm:text-3xl font-extrabold text-orange-500 font-mono tracking-tight">
+              3 Years
+            </span>
+            <div className="h-4 w-px bg-neutral-800 hidden sm:block self-center" aria-hidden="true" />
+            <span className="text-xs sm:text-sm text-neutral-400 font-medium">
+              Learning &amp; Growing in Technology
+            </span>
           </div>
-        )}
+
+          <button
+            type="button"
+            onClick={() => setIsLiked((prev) => !prev)}
+            aria-label={isLiked ? "Unlike portfolio" : "Like portfolio"}
+            aria-pressed={isLiked}
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 cursor-pointer ${isLiked
+              ? 'bg-orange-500/15 border border-orange-500/40 text-orange-400 shadow-sm shadow-orange-500/20'
+              : 'bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-neutral-200 hover:border-neutral-700'
+              }`}
+          >
+            <Heart
+              className={`w-4 h-4 transition-transform duration-200 ${isLiked ? 'fill-orange-500 text-orange-500 scale-110' : 'text-neutral-400'
+                }`}
+            />
+            <span>{isLiked ? 'Liked' : 'Like'}</span>
+          </button>
+        </div>
       </div>
     </section>
   );

@@ -67,6 +67,23 @@ export function TechIcon({ name, className = 'w-5 h-5' }: TechIconProps) {
         </svg>
       );
 
+    case 'csharp':
+    case 'c#':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M13.5 9.5a3 3 0 1 0 0 5" />
+          <path d="M16 10.5v3M18.5 10.5v3M15 12h4.5" strokeWidth="1.5" />
+        </svg>
+      );
+
+    case 'flutter':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="#38bdf8">
+          <path d="M14.314 0L2.3 12 6 15.7 21.684.013h-7.37zM6.3 15.7l5.657 5.657L21.684 11.63H14.31L8.657 17.287 6.3 15.7zm5.657 5.657L14.314 24h7.37L16.028 18.3z" />
+        </svg>
+      );
+
     case 'html':
       return (
         <svg className={className} viewBox="0 0 24 24" fill="#f97316">
@@ -103,6 +120,14 @@ export function TechIcon({ name, className = 'w-5 h-5' }: TechIconProps) {
       return (
         <svg className={className} viewBox="0 0 24 24" fill="#22c55e">
           <path d="M12 2L3 7.2v9.6L12 22l9-5.2V7.2L12 2zm-1.2 14.5c-2.3-.2-3.8-1.8-3.8-3.9 0-2.3 1.7-3.9 4-3.9 1.6 0 2.8.7 3.5 1.8l-1.6 1.1c-.4-.7-1-1.1-1.9-1.1-1.2 0-2.1.9-2.1 2.1s.9 2.1 2.1 2.1c.9 0 1.5-.4 1.9-1.1l1.6 1.1c-.7 1.1-1.9 1.8-3.7 1.8z" />
+        </svg>
+      );
+
+    case 'springsecurity':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <path d="M9 12l2 2 4-4" />
         </svg>
       );
 

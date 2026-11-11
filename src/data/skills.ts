@@ -1,4 +1,4 @@
-import type { SkillCategoryGroup, SkillItem } from '../types/portfolio.types';
+import type { SkillCategoryGroup, SkillItem, TechStackGroup } from '../types/portfolio.types';
 
 export const skillCategoryGroups: SkillCategoryGroup[] = [
   {
@@ -7,8 +7,6 @@ export const skillCategoryGroups: SkillCategoryGroup[] = [
     skills: [
       { id: 'java', name: 'Java', category: 'languages' },
       { id: 'javascript', name: 'JavaScript', category: 'languages' },
-      { id: 'python', name: 'Python', category: 'languages' },
-      { id: 'c', name: 'C', category: 'languages' },
       { id: 'cpp', name: 'C++', category: 'languages' }
     ]
   },
@@ -17,10 +15,17 @@ export const skillCategoryGroups: SkillCategoryGroup[] = [
     title: 'Frontend Development',
     skills: [
       { id: 'react', name: 'React', category: 'frontend' },
-      { id: 'react-native', name: 'React Native', category: 'frontend' },
       { id: 'html', name: 'HTML', category: 'frontend' },
       { id: 'css', name: 'CSS', category: 'frontend' },
       { id: 'tailwind', name: 'Tailwind CSS', category: 'frontend' }
+    ]
+  },
+  {
+    id: 'mobile',
+    title: 'Mobile App Development',
+    skills: [
+      { id: 'react-native', name: 'React Native', category: 'mobile' },
+      { id: 'flutter', name: 'Flutter', category: 'mobile' }
     ]
   },
   {
@@ -99,3 +104,37 @@ export const skillCategoryGroups: SkillCategoryGroup[] = [
 
 // Flat skills list for quick lookup or multi-category displays
 export const allSkills: SkillItem[] = skillCategoryGroups.flatMap(group => group.skills);
+
+// Verified Full-Stack & Engineering Tech Stacks
+export const myTechStacks: TechStackGroup[] = [
+  {
+    id: 'mern',
+    name: 'MERN Stack',
+    badge: 'Full-Stack Web',
+    technologies: ['MongoDB', 'Express.js', 'React', 'Node.js']
+  },
+  {
+    id: 'dotnet',
+    name: '.NET Full Stack',
+    badge: 'Enterprise Backend',
+    technologies: ['C#', 'ASP.NET Core', 'React', 'PostgreSQL', 'Entity Framework Core']
+  },
+  {
+    id: 'java',
+    name: 'Java Full Stack',
+    badge: 'Enterprise Architecture',
+    technologies: ['Java', 'Spring Boot', 'Spring Security', 'Hibernate', 'MySQL']
+  },
+  {
+    id: 'mobile',
+    name: 'Mobile App Development',
+    badge: 'Cross-Platform Apps',
+    technologies: ['React Native', 'Expo', 'Flutter']
+  },
+  {
+    id: 'ai-integration',
+    name: 'AI Integration',
+    badge: 'Agentic Workflows',
+    technologies: ['FastAPI', 'LangGraph']
+  }
+];

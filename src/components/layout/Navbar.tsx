@@ -46,8 +46,8 @@ export function Navbar() {
             : 'bg-[#09090b]/60 backdrop-blur-sm border-b border-transparent py-4'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="flex items-center justify-between w-full">
+        <div className="w-full px-4 sm:px-6 md:px-8 lg:px-8 xl:px-[94px] 2xl:px-[94px]">
+          <div className="relative flex items-center justify-between w-full">
             {/* Brand Logo Monogram */}
             <a
               href="#home"
@@ -55,7 +55,7 @@ export function Navbar() {
                 e.preventDefault();
                 handleNavClick('#home');
               }}
-              className="flex items-center gap-2.5 sm:gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded-lg p-1 shrink-0"
+              className="flex items-center gap-2.5 sm:gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded-lg p-1 shrink-0 z-10"
               aria-label="Mithila Dissanayaka - Home"
             >
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700/60 group-hover:border-orange-500/50 flex items-center justify-center shadow-md shadow-orange-500/5 transition-all duration-200">
@@ -75,7 +75,7 @@ export function Navbar() {
 
             {/* Desktop Navigation Links */}
             <nav
-              className="hidden lg:flex items-center gap-1 xl:gap-2 px-3 py-1.5 rounded-full bg-neutral-900/60 border border-neutral-800/80 backdrop-blur-md shadow-inner shadow-black/20"
+              className="hidden lg:flex items-center gap-1 xl:gap-2 px-3 py-1.5 rounded-full bg-neutral-900/60 border border-neutral-800/80 backdrop-blur-md shadow-inner shadow-black/20 absolute left-1/2 -translate-x-1/2"
               aria-label="Main Navigation"
             >
               {navigationLinks.map((item) => {
@@ -106,7 +106,7 @@ export function Navbar() {
             </nav>
 
             {/* Right Action CTA & Mobile Trigger */}
-            <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+            <div className="flex items-center gap-2.5 sm:gap-3 shrink-0 z-10">
               <a
                 href="#contact"
                 onClick={(e) => {

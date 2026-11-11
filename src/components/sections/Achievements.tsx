@@ -18,13 +18,15 @@ export function Achievements() {
 
   return (
     <section id="achievements" className="py-20 lg:py-28 relative scroll-mt-20">
-      {/* Background ambient light */}
+      {/* Background ambient light with viewport containment */}
       <div
-        className="absolute top-1/2 left-1/3 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none -z-10"
+        className="absolute inset-0 overflow-hidden pointer-events-none -z-10 [clip-path:inset(0)]"
         aria-hidden="true"
-      />
+      >
+        <div className="absolute top-1/2 left-1/3 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl" />
+      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full">
         {/* Section Heading */}
         <SectionHeading
           badge="Leadership & Co-Curricular"

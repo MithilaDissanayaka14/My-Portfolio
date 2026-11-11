@@ -5,6 +5,10 @@ import { Skills } from './components/sections/Skills';
 import { Projects } from './components/sections/Projects';
 import { Certifications } from './components/sections/Certifications';
 import { Achievements } from './components/sections/Achievements';
+import { About } from './components/sections/About';
+import { Education } from './components/sections/Education';
+import { Contact } from './components/sections/Contact';
+import { Footer } from './components/layout/Footer';
 
 export function App() {
   // Support initial hash navigation on page load
@@ -39,19 +43,18 @@ export function App() {
         {/* Phase 5: Achievements Section */}
         <Achievements />
 
-        {/* Section Anchors for Navigation Smooth-Scroll (Subsequent Phases: 6) */}
-        <div id="about" className="scroll-mt-24" />
-        <div id="education" className="scroll-mt-24" />
-        <div id="contact" className="scroll-mt-24" />
+        {/* Phase 6: About Me Section with Agile Workflow Orbit */}
+        <About />
+
+        {/* Phase 6: Education Section */}
+        <Education />
+
+        {/* Phase 6: Contact Section with Form & Tech Radar */}
+        <Contact />
       </main>
 
-      {/* Clean minimal footer preview */}
-      <footer className="border-t border-neutral-800/60 py-8 text-center text-xs text-neutral-500 w-full">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© {new Date().getFullYear()} Mithila Dissanayaka. All rights reserved.</p>
-          <p className="font-mono text-neutral-600">Built with React 19, TypeScript & Tailwind CSS</p>
-        </div>
-      </footer>
+      {/* Phase 6: Full Footer Component */}
+      <Footer />
     </div>
   );
 }

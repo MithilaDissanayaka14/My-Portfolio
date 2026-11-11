@@ -40,7 +40,15 @@ export type SkillCategory =
   | 'embedded'
   | 'tools'
   | 'concepts'
-  | 'soft-skills';
+  | 'soft-skills'
+  | 'mobile';
+
+export interface TechStackGroup {
+  id: string;
+  name: string;
+  badge?: string;
+  technologies: string[];
+}
 
 export interface SkillItem {
   id: string;
