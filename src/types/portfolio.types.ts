@@ -39,7 +39,6 @@ export type SkillCategory =
   | 'ai-ml'
   | 'embedded'
   | 'tools'
-  | 'concepts'
   | 'soft-skills'
   | 'mobile';
 

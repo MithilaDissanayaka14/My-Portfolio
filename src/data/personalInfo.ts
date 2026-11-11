@@ -17,13 +17,13 @@ export const personalInfo: PersonalInfo = {
   availability: "Open to Internship Opportunities",
   primaryCTA: "Hire Me",
   secondaryCTA: "Download CV",
-  
+
   // Tagline is pending finalization - kept configurable
   tagline: undefined,
 
   // Verified summary directly from CV
   aboutParagraphs: [
-    "Motivated Software Engineering undergraduate at SLIIT with hands-on experience in developing full-stack web and mobile applications, embedded systems, and hardware-integrated solutions through academic projects.",
+    "Motivated Software Engineering undergraduate at SLIIT with hands-on experience in developing full-stack web and mobile applications, embedded systems, and hardware-integrated solutions through projects.",
     "Interested in exploring modern software technologies, AI-driven applications, and practical problem-solving. Eager to contribute to collaborative development teams while continuously strengthening software engineering skills."
   ],
 

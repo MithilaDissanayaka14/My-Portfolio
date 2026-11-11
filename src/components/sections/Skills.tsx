@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { skillCategoryGroups, allSkills, myTechStacks } from '../../data/skills';
 import { SectionHeading } from '../common/SectionHeading';
 import { TechIcon } from '../common/TechIcon';
-import { Sparkles, Users, Brain, Target, MessageSquare, Briefcase, Layers } from 'lucide-react';
+import { Sparkles, Users, Brain, Target, MessageSquare, Briefcase } from 'lucide-react';
 
 export function Skills() {
   const [activeTab, setActiveTab] = useState<string>('all');
@@ -186,10 +186,6 @@ export function Skills() {
         {/* My Tech Stack Subsection */}
         <div className="mt-20 pt-14 border-t border-neutral-800/80">
           <div className="text-center mb-10 sm:mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-mono font-medium tracking-wider uppercase mb-3 shadow-[0_0_12px_rgba(249,115,22,0.1)]">
-              <Layers className="w-3.5 h-3.5" />
-              <span>Full-Stack Architecture</span>
-            </div>
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
               My Tech Stack
             </h3>
@@ -198,56 +194,40 @@ export function Skills() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-5 lg:gap-6">
-            {myTechStacks.map((stack, idx) => {
-              const spanClass =
-                idx < 3
-                  ? 'lg:col-span-2'
-                  : idx === 4
-                  ? 'md:col-span-2 lg:col-span-3'
-                  : 'lg:col-span-3';
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6 max-w-5xl mx-auto">
+            {myTechStacks.map((stack) => (
+              <div
+                key={stack.id}
+                className="group relative bg-[#141416]/90 border border-neutral-800/80 hover:border-orange-500/50 hover:bg-neutral-900/90 rounded-2xl p-5 sm:p-6 transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/5 hover:-translate-y-1 flex flex-col justify-between"
+              >
+                <div>
+                  <h4 className="text-base sm:text-lg font-bold text-white group-hover:text-orange-400 transition-colors mb-3">
+                    {stack.name}
+                  </h4>
 
-              return (
-                <div
-                  key={stack.id}
-                  className={`group relative bg-[#141416]/90 border border-neutral-800/80 hover:border-orange-500/50 hover:bg-neutral-900/90 rounded-2xl p-5 sm:p-6 transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/5 hover:-translate-y-1 flex flex-col justify-between ${spanClass}`}
-                >
-                  <div>
-                    <div className="flex items-center justify-between gap-3 mb-3">
-                      <h4 className="text-base sm:text-lg font-bold text-white group-hover:text-orange-400 transition-colors">
-                        {stack.name}
-                      </h4>
-                      {stack.badge && (
-                        <span className="text-[10px] font-mono font-medium text-orange-400/90 bg-orange-500/10 border border-orange-500/20 px-2.5 py-0.5 rounded-full shrink-0">
-                          {stack.badge}
-                        </span>
-                      )}
-                    </div>
+                  <div className="h-px w-full bg-gradient-to-r from-neutral-800 via-neutral-750 to-transparent mb-4" />
 
-                    <div className="h-px w-full bg-gradient-to-r from-neutral-800 via-neutral-750 to-transparent mb-4" />
-
-                    {/* Technology Pills with Icons */}
-                    <div className="flex flex-wrap gap-2">
-                      {stack.technologies.map((tech) => (
-                        <div
-                          key={tech}
-                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-900/90 border border-neutral-800 group-hover:border-neutral-750 text-xs text-neutral-300 font-medium transition-colors"
-                        >
-                          <TechIcon name={tech} className="w-3.5 h-3.5 shrink-0" />
-                          <span>{tech}</span>
-                        </div>
-                      ))}
-                    </div>
+                  {/* Technology Pills with Icons */}
+                  <div className="flex flex-wrap gap-2">
+                    {stack.technologies.map((tech) => (
+                      <div
+                        key={tech}
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-900/90 border border-neutral-800 group-hover:border-neutral-750 text-xs text-neutral-300 font-medium transition-colors"
+                      >
+                        <TechIcon name={tech} className="w-3.5 h-3.5 shrink-0" />
+                        <span>{tech}</span>
+                      </div>
+                    ))}
                   </div>
-
-                  {/* Subtle bottom hover accent line */}
-                  <div
-                    className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-2xl pointer-events-none"
-                    aria-hidden="true"
-                  />
                 </div>
-              );
-            })}
+
+                {/* Subtle bottom hover accent line */}
+                <div
+                  className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-2xl pointer-events-none"
+                  aria-hidden="true"
+                />
+              </div>
+            ))}
           </div>
         </div>
 

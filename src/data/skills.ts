@@ -81,14 +81,6 @@ export const skillCategoryGroups: SkillCategoryGroup[] = [
     ]
   },
   {
-    id: 'concepts',
-    title: 'Core Concepts',
-    skills: [
-      { id: 'oop', name: 'Object-Oriented Programming (OOP)', category: 'concepts' },
-      { id: 'rest-apis', name: 'RESTful APIs', category: 'concepts' }
-    ]
-  },
-  {
     id: 'soft-skills',
     title: 'Professional & Soft Skills',
     skills: [
@@ -110,31 +102,21 @@ export const myTechStacks: TechStackGroup[] = [
   {
     id: 'mern',
     name: 'MERN Stack',
-    badge: 'Full-Stack Web',
     technologies: ['MongoDB', 'Express.js', 'React', 'Node.js']
   },
   {
     id: 'dotnet',
     name: '.NET Full Stack',
-    badge: 'Enterprise Backend',
     technologies: ['C#', 'ASP.NET Core', 'React', 'PostgreSQL', 'Entity Framework Core']
   },
   {
     id: 'java',
     name: 'Java Full Stack',
-    badge: 'Enterprise Architecture',
     technologies: ['Java', 'Spring Boot', 'Spring Security', 'Hibernate', 'MySQL']
   },
   {
     id: 'mobile',
     name: 'Mobile App Development',
-    badge: 'Cross-Platform Apps',
     technologies: ['React Native', 'Expo', 'Flutter']
-  },
-  {
-    id: 'ai-integration',
-    name: 'AI Integration',
-    badge: 'Agentic Workflows',
-    technologies: ['FastAPI', 'LangGraph']
   }
 ];
