@@ -510,11 +510,7 @@ export function Contact() {
             <div className="w-full flex flex-col items-center">
               <TechRadarOrbit />
               <div className="mt-6 text-center">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs font-mono">
-                  <Sparkles className="w-3 h-3 text-orange-400" />
-                  <span>Full-Stack & Systems Tech Radar</span>
-                </span>
-                <p className="mt-2 text-xs text-neutral-400 max-w-sm">
+                <p className="text-xs text-neutral-400 max-w-sm">
                   Interactive visual constellation of verified programming languages, frameworks, and engineering tools.
                 </p>
               </div>

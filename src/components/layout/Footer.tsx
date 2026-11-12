@@ -1,33 +1,25 @@
 import { personalInfo } from '../../data/personalInfo';
-import { navigationLinks } from '../../data/navigation';
-import { ArrowUp, Mail } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import logoImg from '../../assets/Logo.png';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
 export function Footer() {
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
-
   return (
-    <footer className="border-t border-neutral-800/80 bg-[#09090b] text-neutral-400 py-12 relative w-full">
-      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full">
-        {/* Top Tier: Monogram / Name, Navigation & Back to Top */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-10 border-b border-neutral-850">
+    <footer className="border-t border-neutral-800/80 bg-[#09090b] text-neutral-400 py-10 relative w-full">
+      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full space-y-6">
+        {/* Main Tier: Brand Monogram & Social Links */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
           {/* Brand Monogram & Name */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full overflow-hidden bg-[#141416] border border-orange-500/40 flex items-center justify-center shadow-sm shadow-orange-500/10">
+            <div className="w-10 h-10 rounded-full overflow-hidden bg-[#141416] border border-orange-500/40 flex items-center justify-center shadow-sm shadow-orange-500/10 shrink-0">
               <img
                 src={logoImg}
                 alt="MD - Mithila Dissanayaka"
                 className="w-full h-full object-cover object-center"
               />
             </div>
-            <div>
+            <div className="text-left">
               <span className="text-base font-bold text-white tracking-tight block">
                 {personalInfo.name}
               </span>
@@ -35,40 +27,6 @@ export function Footer() {
                 {personalInfo.primaryTitle}
               </span>
             </div>
-          </div>
-
-          {/* Navigation Links */}
-          <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-medium">
-            {navigationLinks.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="text-neutral-400 hover:text-orange-400 transition-colors py-1"
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
-
-          {/* Back to Top Button */}
-          <button
-            onClick={scrollToTop}
-            aria-label="Back to top of page"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-orange-500/50 hover:bg-neutral-850 text-xs font-mono text-neutral-300 hover:text-white transition-all active:scale-95 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
-          >
-            <span>Back to top</span>
-            <ArrowUp className="w-3.5 h-3.5 text-orange-400 group-hover:-translate-y-0.5 transition-transform" />
-          </button>
-        </div>
-
-        {/* Bottom Tier: Copyright, Socials & Tech Credits */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-neutral-400">
-          {/* Copyright & Disclaimer */}
-          <div className="text-center sm:text-left">
-            <p>© {CURRENT_YEAR} {personalInfo.name}. All rights reserved.</p>
-            <p className="font-mono text-[11px] text-neutral-400 mt-1">
-              Built with React 19, TypeScript & Tailwind CSS
-            </p>
           </div>
 
           {/* Social Profiles */}
@@ -125,8 +83,15 @@ export function Footer() {
             })}
           </div>
         </div>
+
+        {/* Bottom Tier: Copyright & Tech Credits */}
+        <div className="pt-6 border-t border-neutral-850 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-neutral-500 text-center sm:text-left">
+          <p>© {CURRENT_YEAR} {personalInfo.name}. All rights reserved.</p>
+          <p className="font-mono text-[11px] text-neutral-500">
+            Built with React 19, TypeScript & Tailwind CSS
+          </p>
+        </div>
       </div>
     </footer>
   );
 }
-
