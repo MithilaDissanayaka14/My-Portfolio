@@ -64,7 +64,7 @@ async function testCertifications() {
   // 3. Inspect Certificate Cards
   const cardsCheck = await evalJs(`(() => {
     const sec = document.getElementById('certifications');
-    const cards = Array.from(sec.querySelectorAll('article[role=\"button\"]'));
+    const cards = Array.from(sec.querySelectorAll("article[role='button']"));
     return {
       cardCount: cards.length,
       cards: cards.map(c => {
@@ -83,11 +83,11 @@ async function testCertifications() {
   console.log(JSON.stringify(cardsCheck, null, 2));
 
   // 4. Test Clicking Card 1 (AI & ML SkyRek)
-  await evalJs(`document.querySelectorAll('#certifications article[role=\"button\"]')[0].click();`);
+  await evalJs(`document.querySelectorAll("#certifications article[role='button']")[0].click();`);
   await new Promise(r => setTimeout(r, 350));
 
   const modalCheck1 = await evalJs(`(() => {
-    const modal = document.querySelector('[role=\"dialog\"][aria-modal=\"true\"]');
+    const modal = document.querySelector("[role='dialog'][aria-modal='true']");
     if (!modal) return { isOpen: false };
     const title = modal.querySelector('#cert-modal-title')?.innerText?.trim();
     const notice = modal.querySelector('.text-neutral-400 span')?.innerText?.trim();
@@ -113,18 +113,18 @@ async function testCertifications() {
 
   const closedAfterEscape = await evalJs(`(() => {
     return {
-      isOpen: Boolean(document.querySelector('[role=\"dialog\"]')),
+      isOpen: Boolean(document.querySelector("[role='dialog']")),
       bodyOverflow: document.body.style.overflow
     };
   })()`);
   console.log('After Escape:', closedAfterEscape);
 
   // 6. Test Clicking Card 2 (Moratuwa Python) and Closing with Close Button
-  await evalJs(`document.querySelectorAll('#certifications article[role=\"button\"]')[1].click();`);
+  await evalJs(`document.querySelectorAll("#certifications article[role='button']")[1].click();`);
   await new Promise(r => setTimeout(r, 350));
 
   const modalCheck2 = await evalJs(`(() => {
-    const modal = document.querySelector('[role=\"dialog\"]');
+    const modal = document.querySelector("[role='dialog']");
     return {
       title: modal?.querySelector('#cert-modal-title')?.innerText?.trim()
     };
@@ -132,15 +132,15 @@ async function testCertifications() {
   console.log('Modal Check 2 (Moratuwa):', modalCheck2);
 
   // Click close button
-  await evalJs(`document.querySelector('[role=\"dialog\"] button[aria-label=\"Close certificate preview\"]').click();`);
+  await evalJs(`document.querySelector("[role='dialog'] button[aria-label='Close certificate preview']").click();`);
   await new Promise(r => setTimeout(r, 350));
 
   // 7. Test Clicking Card 6 (Diploma CS ICTA) and Closing with Backdrop Click
-  await evalJs(`document.querySelectorAll('#certifications article[role=\"button\"]')[5].click();`);
+  await evalJs(`document.querySelectorAll("#certifications article[role='button']")[5].click();`);
   await new Promise(r => setTimeout(r, 350));
 
   const modalCheck6 = await evalJs(`(() => {
-    const modal = document.querySelector('[role=\"dialog\"]');
+    const modal = document.querySelector("[role='dialog']");
     return {
       title: modal?.querySelector('#cert-modal-title')?.innerText?.trim()
     };
@@ -148,14 +148,14 @@ async function testCertifications() {
   console.log('Modal Check 6 (Diploma):', modalCheck6);
 
   // Click backdrop
-  await evalJs(`document.querySelector('[role=\"dialog\"] .bg-black\\\\/80').click();`);
+  await evalJs(`document.querySelector("[role='dialog'] .bg-black\\\\/80").click();`);
   await new Promise(r => setTimeout(r, 350));
 
   // 8. Capture Desktop Grid Screenshot
   await evalJs(`(() => {
     const sec = document.getElementById('certifications');
     const r = sec.getBoundingClientRect();
-    window.scrollBy(0, r.top);
+    window.scrollBy(0, r.top + 160);
   })()`);
   await new Promise(r => setTimeout(r, 500));
 
@@ -172,11 +172,11 @@ async function testCertifications() {
   });
   await new Promise(r => setTimeout(r, 400));
 
-  await evalJs(`document.querySelectorAll('#certifications article[role=\"button\"]')[0].click();`);
+  await evalJs(`document.querySelectorAll("#certifications article[role='button']")[0].click();`);
   await new Promise(r => setTimeout(r, 400));
 
   const mobileModalCheck = await evalJs(`(() => {
-    const modal = document.querySelector('[role=\"dialog\"] > div:last-child');
+    const modal = document.querySelector("[role='dialog'] > div:last-child");
     const r = modal.getBoundingClientRect();
     return {
       modalWidth: Math.round(r.width),
@@ -193,7 +193,7 @@ async function testCertifications() {
   console.log('Saved cert_modal_mobile.png');
 
   // Close modal
-  await evalJs(`document.querySelector('[role=\"dialog\"] button[aria-label=\"Close certificate preview\"]').click();`);
+  await evalJs(`document.querySelector("[role='dialog'] button[aria-label='Close certificate preview']").click();`);
   await new Promise(r => setTimeout(r, 300));
 
   // Capture Mobile Grid Screenshot

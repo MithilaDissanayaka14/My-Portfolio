@@ -26,9 +26,8 @@ export function Education() {
       </div>
 
       <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full">
-        {/* Section Heading */}
+        {/* Section Heading: "Academic Foundation" badge removed as requested */}
         <SectionHeading
-          badge="Academic Foundation"
           title="Education"
           subtitle="Formal academic degrees, secondary education, and qualifications."
         />

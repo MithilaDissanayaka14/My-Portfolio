@@ -23,9 +23,8 @@ export function About() {
       </div>
 
       <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full">
-        {/* Section Heading */}
+        {/* Section Heading: "Profile & Background" badge removed as requested */}
         <SectionHeading
-          badge="Profile & Background"
           title="About Me"
           subtitle="Engineering philosophy, academic foundation, and technical problem-solving focus."
         />

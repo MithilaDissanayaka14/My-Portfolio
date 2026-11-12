@@ -1,6 +1,7 @@
 import { personalInfo } from '../../data/personalInfo';
 import { navigationLinks } from '../../data/navigation';
 import { ArrowUp, Mail } from 'lucide-react';
+import logoImg from '../../assets/Logo.png';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -19,8 +20,12 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-10 border-b border-neutral-850">
           {/* Brand Monogram & Name */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#141416] border border-orange-500/40 flex items-center justify-center font-bold text-orange-400 tracking-wider shadow-sm shadow-orange-500/10">
-              MD
+            <div className="w-10 h-10 rounded-full overflow-hidden bg-[#141416] border border-orange-500/40 flex items-center justify-center shadow-sm shadow-orange-500/10">
+              <img
+                src={logoImg}
+                alt="MD - Mithila Dissanayaka"
+                className="w-full h-full object-cover object-center"
+              />
             </div>
             <div>
               <span className="text-base font-bold text-white tracking-tight block">

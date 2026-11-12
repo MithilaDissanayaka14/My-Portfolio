@@ -24,7 +24,7 @@ export const agileWorkflowSteps: AgileWorkflowStep[] = [
   },
   {
     id: "deploy",
-    name: "Deploy",
+    name: "Deployment",
     description: "CI/CD deployment, release validation, monitoring",
     icon: "Rocket",
     angle: 270

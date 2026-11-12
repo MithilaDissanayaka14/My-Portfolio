@@ -3,6 +3,7 @@ import { navigationLinks } from '../../data/navigation';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
 import { MobileMenu } from './MobileMenu';
 import { Menu } from 'lucide-react';
+import logoImg from '../../assets/Logo.png';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -58,10 +59,12 @@ export function Navbar() {
               className="flex items-center gap-2.5 sm:gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded-lg p-1 shrink-0 z-10"
               aria-label="Mithila Dissanayaka - Home"
             >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700/60 group-hover:border-orange-500/50 flex items-center justify-center shadow-md shadow-orange-500/5 transition-all duration-200">
-                <span className="font-serif italic text-lg sm:text-xl font-bold bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 bg-clip-text text-transparent">
-                  MD
-                </span>
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-neutral-900 border border-neutral-700/60 group-hover:border-orange-500/50 flex items-center justify-center shadow-md shadow-orange-500/10 transition-all duration-200">
+                <img
+                  src={logoImg}
+                  alt="MD - Mithila Dissanayaka"
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-200"
+                />
               </div>
               <div className="hidden sm:flex flex-col">
                 <span className="text-sm font-semibold text-neutral-100 tracking-tight group-hover:text-white transition-colors">

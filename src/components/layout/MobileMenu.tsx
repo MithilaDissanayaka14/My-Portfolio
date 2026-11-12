@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import type { NavItem } from '../../types/portfolio.types';
 import { X, ArrowRight } from 'lucide-react';
+import logoImg from '../../assets/Logo.png';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -58,10 +59,12 @@ export function MobileMenu({
           }}
           className="flex items-center gap-2 group"
         >
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700/60 flex items-center justify-center shadow-md">
-            <span className="font-serif italic text-xl font-bold bg-gradient-to-r from-orange-400 to-amber-500 bg-clip-text text-transparent">
-              MD
-            </span>
+          <div className="w-10 h-10 rounded-full overflow-hidden bg-neutral-900 border border-neutral-700/60 flex items-center justify-center shadow-md">
+            <img
+              src={logoImg}
+              alt="MD - Mithila Dissanayaka"
+              className="w-full h-full object-cover object-center"
+            />
           </div>
           <span className="text-sm font-semibold text-neutral-200 tracking-wide">
             Mithila<span className="text-orange-500">.</span>

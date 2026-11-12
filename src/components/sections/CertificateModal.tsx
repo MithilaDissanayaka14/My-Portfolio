@@ -189,3 +189,4 @@ export function CertificateModal({ certification, isOpen, onClose }: Certificate
     </div>
   );
 }
+

@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { FormEvent, ChangeEvent } from 'react';
 import emailjs from '@emailjs/browser';
-import confetti from 'canvas-confetti';
 import { personalInfo } from '../../data/personalInfo';
 import { SectionHeading } from '../common/SectionHeading';
 import { TechRadarOrbit } from './TechRadarOrbit';
@@ -14,7 +13,6 @@ import {
   CheckCircle2,
   AlertCircle,
   ArrowUpRight,
-  Sparkles,
 } from 'lucide-react';
 
 interface FormData {
@@ -44,6 +42,31 @@ export function Contact() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [status, setStatus] = useState<SubmissionState>('idle');
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isExiting, setIsExiting] = useState(false);
+  const lastSentTimeRef = useRef<number>(0);
+
+  // Auto-dismiss success notification after 30 seconds with smooth fade-out
+  useEffect(() => {
+    if (status !== 'success') {
+      return;
+    }
+
+    // Start fade-out at 30 seconds
+    const fadeOutTimer = setTimeout(() => {
+      setIsExiting(true);
+    }, 30000);
+
+    // Complete fade-out after 500ms transition and remove from UI
+    const removeTimer = setTimeout(() => {
+      setStatus('idle');
+      setIsExiting(false);
+    }, 30500);
+
+    return () => {
+      clearTimeout(fadeOutTimer);
+      clearTimeout(removeTimer);
+    };
+  }, [status]);
 
   const validate = (): boolean => {
     const newErrors: FormErrors = {};
@@ -84,6 +107,11 @@ export function Contact() {
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
+
+    if (status === 'error' || status === 'unconfigured') {
+      setStatus('idle');
+      setErrorMessage('');
+    }
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -94,6 +122,18 @@ export function Contact() {
       return;
     }
 
+    // Client-side rate limiting: 15-second cooldown after successful delivery
+    const now = Date.now();
+    const COOLDOWN_MS = 15000;
+    if (lastSentTimeRef.current && now - lastSentTimeRef.current < COOLDOWN_MS) {
+      const waitSeconds = Math.ceil((COOLDOWN_MS - (now - lastSentTimeRef.current)) / 1000);
+      setStatus('error');
+      setErrorMessage(
+        `Please wait ${waitSeconds}s before submitting another message.`
+      );
+      return;
+    }
+
     if (!validate()) {
       return;
     }
@@ -101,62 +141,70 @@ export function Contact() {
     setStatus('loading');
     setErrorMessage('');
 
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID?.trim();
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID?.trim();
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY?.trim();
 
-    // Check if real EmailJS credentials are provided
-    const isConfigured =
+    // Verify all three required configuration values exist and are not placeholders
+    const isConfigured = Boolean(
       serviceId &&
       templateId &&
       publicKey &&
       !serviceId.includes('your_') &&
       !templateId.includes('your_') &&
-      !publicKey.includes('your_');
+      !publicKey.includes('your_')
+    );
 
-    if (!isConfigured) {
-      // Clear informative notice for development mode / unconfigured credentials
-      console.info(
-        'EmailJS environment variables not configured. To enable live dispatch, define VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, and VITE_EMAILJS_PUBLIC_KEY in your .env file.'
+    if (!isConfigured || !serviceId || !templateId || !publicKey) {
+      console.warn(
+        'EmailJS configuration missing. Define VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, and VITE_EMAILJS_PUBLIC_KEY in your .env file.'
       );
-
       setStatus('unconfigured');
       return;
     }
 
     try {
+      // Sends exact template parameters: name, email, subject, message (plus standard aliases)
       await emailjs.send(
         serviceId,
         templateId,
         {
-          from_name: formData.name,
-          reply_to: formData.email,
-          subject: formData.subject,
-          message: formData.message,
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          subject: formData.subject.trim(),
+          message: formData.message.trim(),
+          from_name: formData.name.trim(),
+          reply_to: formData.email.trim(),
           to_name: personalInfo.name,
         },
         publicKey
       );
 
-      try {
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ['#f97316', '#fb923c', '#fdba74', '#ffffff'],
-        });
-      } catch {
-        // ignore
-      }
+      // Record successful delivery timestamp for client rate limiting
+      lastSentTimeRef.current = Date.now();
 
+      setIsExiting(false);
       setStatus('success');
+      // Reset form only on successful delivery
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (err: unknown) {
-      console.error('EmailJS submission error:', err);
+      // Do not log user message contents or secret keys
+      const errStatus = (err as { status?: number })?.status;
+      console.error('EmailJS delivery failed with status:', errStatus ?? 'network/unknown');
       setStatus('error');
-      setErrorMessage(
-        'Failed to deliver message via direct service. Please use the direct email link or client fallback below.'
-      );
+
+      let friendlyError =
+        'Failed to deliver message via email service. Please try again or use the direct email link below.';
+      if (err && typeof err === 'object') {
+        const emailJsErr = err as { text?: string; message?: string; status?: number };
+        if (emailJsErr.text) {
+          friendlyError = `Service response (${emailJsErr.status || 'error'}): ${emailJsErr.text}. Please use the direct email link below.`;
+        } else if (emailJsErr.message) {
+          friendlyError = `${emailJsErr.message}. Please use the direct email link below.`;
+        }
+      }
+      setErrorMessage(friendlyError);
+      // Notice: formData is deliberately preserved so user does not lose input
     }
   };
 
@@ -178,8 +226,8 @@ export function Contact() {
 
       <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full">
         {/* Section Heading */}
+        {/* Section Heading: "Get in Touch" badge removed */}
         <SectionHeading
-          badge="Get in Touch"
           title="Contact"
           subtitle="Open to internship opportunities, collaboration, and technical discussions."
         />
@@ -363,12 +411,19 @@ export function Contact() {
                 {/* Status Banners */}
                 <div aria-live="polite">
                   {status === 'success' && (
-                    <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm flex items-start gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                      <div>
-                        <p className="font-semibold text-emerald-200">Message sent successfully!</p>
-                        <p className="text-emerald-300/80 mt-0.5">
-                          Thank you for reaching out. I will review your message and reply as soon as possible.
+                    <div
+                      role="status"
+                      className={`p-4 rounded-xl bg-[#141416] border border-orange-500/40 text-neutral-200 text-xs sm:text-sm flex items-start gap-3 shadow-sm shadow-orange-500/5 transition-opacity duration-500 ease-out motion-reduce:transition-none ${
+                        isExiting ? 'opacity-0 pointer-events-none' : 'opacity-100 animate-fadeIn'
+                      }`}
+                    >
+                      <CheckCircle2 className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
+                      <div className="min-w-0">
+                        <p className="font-semibold text-neutral-100 tracking-tight">
+                          Message sent successfully!
+                        </p>
+                        <p className="text-neutral-400 text-xs sm:text-[13px] mt-0.5 leading-relaxed">
+                          Thank you for reaching out. I'll get back to you soon.
                         </p>
                       </div>
                     </div>
