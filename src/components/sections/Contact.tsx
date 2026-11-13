@@ -302,7 +302,7 @@ export function Contact() {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      placeholder="e.g. John Doe"
+                      placeholder="Enter your name"
                       disabled={status === 'loading'}
                       aria-invalid={Boolean(errors.name)}
                       aria-describedby={errors.name ? 'contact-name-error' : undefined}
@@ -331,7 +331,7 @@ export function Contact() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      placeholder="e.g. john@example.com"
+                      placeholder="Enter your email address"
                       disabled={status === 'loading'}
                       aria-invalid={Boolean(errors.email)}
                       aria-describedby={errors.email ? 'contact-email-error' : undefined}
@@ -361,7 +361,7 @@ export function Contact() {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    placeholder="e.g. Internship Opportunity / Project Collaboration"
+                    placeholder="Enter the subject"
                     disabled={status === 'loading'}
                     aria-invalid={Boolean(errors.subject)}
                     aria-describedby={errors.subject ? 'contact-subject-error' : undefined}
@@ -390,7 +390,7 @@ export function Contact() {
                     rows={5}
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Write your message or inquiry here..."
+                    placeholder="Type your message here..."
                     disabled={status === 'loading'}
                     aria-invalid={Boolean(errors.message)}
                     aria-describedby={errors.message ? 'contact-message-error' : undefined}
